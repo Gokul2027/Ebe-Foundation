@@ -488,14 +488,13 @@
         }
       });
 
-      // --- Animate Elements on Scroll (Reversible) ---
+      // --- Animate Elements on Scroll (One-way) ---
       const scrollObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("reveal");
-            } else {
-              entry.target.classList.remove("reveal");
+              scrollObserver.unobserve(entry.target);
             }
           });
         },
