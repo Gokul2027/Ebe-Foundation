@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EBE FOUNDATIONS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      /* Modern font and base styling */
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f8fafc;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* --- Custom Scrollbar --- */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1d4ed8; /* Blue-800 */
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1e40af; /* Blue-900 */
+      }
+
+      /* --- Cursor Spotlight Effect --- */
+      #cursor-light {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 800px;
+        height: 800px;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        background: radial-gradient(
+          circle,
+          rgba(29, 78, 216, 0.06),
+          transparent 60%
+        );
+        transition: opacity 0.4s ease-out, transform 0.2s ease-out;
+      }
+      
+      body:not(:hover) #cursor-light {
+          opacity: 0;
+      }
+
+      /* Sticky navigation bar styling */
+      .sticky-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+      }
+
+      /* Scrolled state for navigation */
+      .scrolled {
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+      }
+      
+      /* --- Nav Link Hover Effect --- */
+      .nav-link {
+        position: relative;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: #fbbf24; /* Amber-400 */
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+      }
+      .nav-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
+
+      /* --- Enhanced Animation for Revealed Elements (Transition-based) --- */
+      .hidden-for-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        will-change: transform, opacity;
+        transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+
+      /* --- Enhanced 3D Tilt Effect for Cards --- */
+      .interactive-card-container {
+        perspective: 1500px;
+      }
+      .interactive-card {
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+      
+      /* --- Hero Slider Styles --- */
+      .hero-slider .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+        transform: scale(1.1); /* Start slightly zoomed in for Ken Burns effect */
+      }
+
+      .hero-slider .slide.active {
+        opacity: 1;
+        animation: kenBurns 15s infinite;
+      }
+
+      @keyframes kenBurns {
+        0% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 30;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem;
+      }
+
+      .slider-nav button {
+        background-color: rgba(0, 0, 0, 0.3);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+      }
+      
+      #home:hover .slider-nav button {
+        opacity: 1;
+      }
+
+      .slider-nav button:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+        transform: scale(1.1);
+      }
+
+      /* --- Service Card Glow Effect --- */
+      .service-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .service-card:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 200%;
+        padding-bottom: 200%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(29, 78, 216, 0.15) 0%, rgba(29, 78, 216, 0) 70%);
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.6s ease-out;
+        z-index: 0;
+      }
+      .service-card:hover:before {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      .service-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Cursor Spotlight Element -->
+    <div id="cursor-light"></div>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="sticky-nav">
+      <div class="container mx-auto px-4 lg:px-8">
+        <nav class="flex items-center justify-between h-20">
+          <!-- Logo -->
+          <a href="#" class="text-3xl font-bold text-blue-800 transition-transform duration-300 hover:scale-105">
+            EBE Foundation<span class="text-amber-500">.</span>
+          </a>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden lg:flex items-center space-x-10">
+            <a href="#home" class="nav-link text-gray-600 hover:text-blue-800 font-medium transition-colors duration-300">Home</a>
+            <a href="#services" class="nav-link text-gray-600 hover:text-blue-800 font-medium transition-colors duration-300">Services</a>
+            <a href="#projects" class="nav-link text-gray-600 hover:text-blue-800 font-medium transition-colors duration-300">Projects</a>
+            <a href="#about" class="nav-link text-gray-600 hover:text-blue-800 font-medium transition-colors duration-300">About Us</a>
+            <a href="#contact" class="bg-blue-700 text-white px-6 py-3 rounded-full hover:bg-blue-800 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Contact Us</a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="lg:hidden">
+            <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-800">
+              <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
+          </div>
+        </nav>
+      </div>
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-200">
+        <a href="#home" class="block px-6 py-4 text-gray-600 hover:bg-gray-100 font-medium">Home</a>
+        <a href="#services" class="block px-6 py-4 text-gray-600 hover:bg-gray-100 font-medium">Services</a>
+        <a href="#projects" class="block px-6 py-4 text-gray-600 hover:bg-gray-100 font-medium">Projects</a>
+        <a href="#about" class="block px-6 py-4 text-gray-600 hover:bg-gray-100 font-medium">About Us</a>
+        <a href="#contact" class="block px-6 py-4 text-white bg-blue-700 hover:bg-blue-800 font-medium">Contact Us</a>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section id="home" class="h-[calc(100vh-80px)] text-white relative overflow-hidden hero-slider">
+        <!-- Slides -->
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1511095763541-a5fb3c3f2b5a?q=80&w=2070&auto=format&fit=crop');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1581092446333-f68b356334a1?q=80&w=2070&auto=format&fit=crop');"></div>
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
+
+        <!-- Slider Navigation -->
+        <div class="slider-nav">
+            <button id="prev-slide"><i data-lucide="chevron-left" class="w-8 h-8"></i></button>
+            <button id="next-slide"><i data-lucide="chevron-right" class="w-8 h-8"></i></button>
+        </div>
+
+        <!-- Text Content -->
+        <div class="absolute inset-0 flex items-center justify-center z-20">
+            <div class="text-center px-4">
+              <h1 id="hero-title" class="text-4xl md:text-7xl font-extrabold mb-4 leading-tight" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">
+                <!-- Words will be injected by JS -->
+              </h1>
+              <p class="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-gray-200 hidden-for-reveal" style="transition-delay: 0.5s; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+                A highly professional building company, offering the highest quality construction for new build and refurbishment projects across Tamilnadu.
+              </p>
+              <a href="#projects" class="bg-amber-500 text-gray-900 font-bold py-4 px-10 rounded-full text-lg hover:bg-amber-400 transition-all duration-300 transform hover:scale-105 shadow-2xl hidden-for-reveal" style="transition-delay: 0.7s;">
+                See Our Work
+              </a>
+            </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="py-24 bg-gray-50">
+        <div class="container mx-auto px-4 lg:px-8 text-center">
+          <h2 class="text-4xl font-bold text-blue-900 mb-4 hidden-for-reveal">
+            Our Services
+          </h2>
+          <p class="text-gray-600 mb-16 max-w-2xl mx-auto hidden-for-reveal" style="transition-delay: 0.1s;">
+            We provide a full spectrum of construction services to meet the demands of any project, large or small.
+          </p>
+          <div class="flex flex-wrap items-stretch justify-center gap-10">
+            <!-- Service Cards -->
+            <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
+                <div class="bg-blue-100 text-blue-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="hard-hat" class="w-10 h-10"></i></div>
+                <h3 class="text-xl font-bold mb-3">Construction</h3>
+                <p class="text-gray-600">All types of construction projects including: Villa, Apartment, Commercial & Industrial Buildings, Renovation, Interior Design, and Landscaping.</p>
+              </div>
+            </div>
+             <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.1s">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
+                <div class="bg-amber-100 text-amber-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="notebook-pen" class="w-10 h-10"></i></div>
+                <h3 class="text-xl font-bold mb-3">Design & Planning</h3>
+                <p class="text-gray-600">Our team of experts will work with you to create a detailed building plan that meets your needs and budget.</p>
+              </div>
+            </div>
+            <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.2s">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
+                <div class="bg-green-100 text-green-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="ruler" class="w-10 h-10"></i></div>
+                <h3 class="text-xl font-bold mb-3">Structural Planning</h3>
+                <p class="text-gray-600">Comprehensive structural planning services to ensure your project is built on a solid foundation, from initial design to final execution.</p>
+              </div>
+            </div>
+            <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.3s">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
+                <div class="bg-purple-100 text-purple-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="building-2" class="w-10 h-10"></i></div>
+                <h3 class="text-xl font-bold mb-3">Elevation Design</h3>
+                <p class="text-gray-600">Detailed architectural designs and 3D modeling to visualize your project's exterior before construction begins.</p>
+              </div>
+            </div>
+            <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.4s">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
+                <div class="bg-rose-100 text-rose-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="view" class="w-10 h-10"></i></div>
+                <h3 class="text-xl font-bold mb-3">3D Walkthrough</h3>
+                <p class="text-gray-600">Experience your project in a virtual 3D environment with our advanced walkthrough services, allowing you to explore every detail.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Projects Section -->
+      <section id="projects" class="py-24 bg-white">
+        <div class="container mx-auto px-4 lg:px-8">
+          <h2 class="text-4xl font-bold text-blue-900 mb-16 text-center hidden-for-reveal">
+            Featured Projects
+          </h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Cards -->
+            <div class="group rounded-lg overflow-hidden shadow-xl hidden-for-reveal interactive-card-container">
+              <div class="relative interactive-card">
+                <img src="https://placehold.co/600x400/4a5568/ffffff?text=Prayer+Hall" alt="Prayer Hall Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute inset-0 flex items-end p-6">
+                  <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+                    <h3 class="text-white text-2xl font-bold">Prayer Hall</h3>
+                    <p class="text-amber-400">Parinagar, Karaikudi, TN</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="group rounded-lg overflow-hidden shadow-xl hidden-for-reveal interactive-card-container" style="transition-delay: 0.2s">
+              <div class="relative interactive-card">
+                <img src="https://placehold.co/600x400/718096/ffffff?text=Modern+Villa" alt="Modern Villa Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
+                 <div class="absolute inset-0 flex items-end p-6">
+                  <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+                    <h3 class="text-white text-2xl font-bold">Modern Villa</h3>
+                    <p class="text-amber-400">Devakottai, TN</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="group rounded-lg overflow-hidden shadow-xl hidden-for-reveal interactive-card-container" style="transition-delay: 0.4s">
+              <div class="relative interactive-card">
+                <img src="https://placehold.co/600x400/2d3748/ffffff?text=Factory" alt="Factory Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
+                 <div class="absolute inset-0 flex items-end p-6">
+                  <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+                    <h3 class="text-white text-2xl font-bold">Factory</h3>
+                    <p class="text-amber-400">Karaikudi, TN</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- About Us Section -->
+      <section id="about" class="py-24 bg-gray-50">
+        <div class="container mx-auto px-4 lg:px-8">
+          <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="hidden-for-reveal interactive-card-container">
+              <img src="https://placehold.co/600x500/a0aec0/ffffff?text=EBE+Team" alt="EBE Foundations Team" class="rounded-lg shadow-2xl w-full h-auto object-cover interactive-card"/>
+            </div>
+            <div class="text-center md:text-left hidden-for-reveal" style="transition-delay: 0.2s;">
+              <h2 class="text-4xl font-bold text-blue-900 mb-6">
+                A Legacy of Excellence
+              </h2>
+              <p class="text-gray-600 mb-6 leading-relaxed">
+                EBE FOUNDATIONS is a cornerstone of the construction industry, shaping communities with our commitment to quality. Our success is built on a foundation of trust, innovation, and a relentless pursuit of client satisfaction. We are more than builders; we are partners in creating lasting value.
+              </p>
+              <a href="#" class="text-blue-700 font-semibold hover:underline group inline-block">
+                Learn More About Our Story
+                <i data-lucide="arrow-right" class="inline w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-800 text-gray-300">
+      <div class="container mx-auto px-4 lg:px-8 py-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <!-- Company Info -->
+          <div>
+            <h3 class="text-2xl font-bold text-white mb-4">
+              EBE Foundation<span class="text-amber-500">.</span>
+            </h3>
+            <p class="mb-4">Constructing with integrity and excellence.</p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white transition-transform hover:scale-125"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition-transform hover:scale-125"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition-transform hover:scale-125"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition-transform hover:scale-125"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+            </div>
+          </div>
+          <!-- Quick Links -->
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+            <ul>
+              <li class="mb-2"><a href="#about" class="hover:text-white hover:underline">About Us</a></li>
+              <li class="mb-2"><a href="#services" class="hover:text-white hover:underline">Services</a></li>
+              <li class="mb-2"><a href="#projects" class="hover:text-white hover:underline">Projects</a></li>
+            </ul>
+          </div>
+          <!-- Contact Info -->
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <i data-lucide="map-pin" class="w-5 h-5 mr-3 mt-1 text-amber-400 flex-shrink-0"></i>
+                <span>Kattankulathur, <br />Tamil Nadu, India</span>
+              </li>
+              <li class="flex items-center">
+                <i data-lucide="phone" class="w-5 h-5 mr-3 text-amber-400"></i>
+                <span>(123) 456-7890</span>
+              </li>
+              <li class="flex items-center">
+                <i data-lucide="mail" class="w-5 h-5 mr-3 text-amber-400"></i>
+                <span>contact@ebefoundations.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-16 pt-8 text-center text-gray-500 text-sm">
+          <p>&copy; <span id="year"></span> EBE FOUNDATIONS. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      const header = document.getElementById("header");
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      // --- Mobile Menu Toggle ---
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Close mobile menu when a link is clicked
+      document.querySelectorAll("#mobile-menu a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.add("hidden");
+        });
+      });
+
+      // --- Translucent Header on Scroll ---
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // --- Animate Elements on Scroll (Reversible) ---
+      const scrollObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal");
+            } else {
+              entry.target.classList.remove("reveal");
+            }
+          });
+        },
+        { 
+          threshold: 0.15,
+          rootMargin: "0px 0px -50px 0px"
+        }
+      );
+
+      const elementsToReveal = document.querySelectorAll(".hidden-for-reveal");
+      elementsToReveal.forEach((el) => scrollObserver.observe(el));
+
+      // --- Hero Title Word Animation ---
+      const heroTitle = document.getElementById('hero-title');
+      const titleText = "Building Your Vision";
+      heroTitle.innerHTML = titleText
+        .split(' ')
+        .map(word => `<span class="inline-block overflow-hidden align-bottom" style="padding-bottom: 0.1em; margin-bottom: -0.1em;"><span class="inline-block transform translate-y-full">${word}</span></span>`)
+        .join(' ');
+        
+      setTimeout(() => {
+        const wordSpans = heroTitle.querySelectorAll('span>span');
+        wordSpans.forEach((span, index) => {
+          setTimeout(() => {
+            span.style.transition = 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            span.style.transform = 'translateY(0)';
+          }, index * 150);
+        });
+        document.querySelectorAll('#home .hidden-for-reveal').forEach(el => el.classList.add('reveal'));
+      }, 300);
+
+
+      // --- Cursor Spotlight Effect ---
+      const cursorLight = document.getElementById("cursor-light");
+      let frame;
+      document.body.addEventListener("mousemove", (e) => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          cursorLight.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
+        });
+      });
+
+      // --- 3D Interactive Card Tilt Effect ---
+      const interactiveCards = document.querySelectorAll(".interactive-card");
+      interactiveCards.forEach((card) => {
+        const maxTilt = 8; // Reduced max tilt for a more subtle effect
+
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          const { width, height } = rect;
+          const middleX = width / 2;
+          const middleY = height / 2;
+
+          const tiltY = ((x - middleX) / middleX) * maxTilt;
+          const tiltX = ((middleY - y) / middleY) * maxTilt;
+
+          requestAnimationFrame(() => {
+            card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.05, 1.05, 1.05)`;
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          requestAnimationFrame(() => {
+            card.style.transform = "rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+          });
+        });
+      });
+      
+      // --- Hero Slider Logic ---
+      const slides = document.querySelectorAll(".hero-slider .slide");
+      const nextBtn = document.getElementById("next-slide");
+      const prevBtn = document.getElementById("prev-slide");
+      let currentSlide = 0;
+      let slideInterval;
+
+      function showSlide(n) {
+        slides.forEach((slide, index) => {
+            slide.classList.remove('active');
+            if (index === n) {
+                slide.classList.add('active');
+            }
+        });
+        currentSlide = n;
+      }
+
+      function nextSlide() {
+        let newSlide = (currentSlide + 1) % slides.length;
+        showSlide(newSlide);
+      }
+      
+      function prevSlide() {
+        let newSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(newSlide);
+      }
+
+      function startSlideShow() {
+        slideInterval = setInterval(nextSlide, 3000);
+      }
+
+      function stopSlideShow() {
+        clearInterval(slideInterval);
+      }
+      
+      nextBtn.addEventListener('click', () => {
+        stopSlideShow();
+        nextSlide();
+        startSlideShow();
+      });
+
+      prevBtn.addEventListener('click', () => {
+        stopSlideShow();
+        prevSlide();
+        startSlideShow();
+      });
+
+      // Start the slideshow on page load
+      startSlideShow();
+
+
+      // Set current year in footer
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
