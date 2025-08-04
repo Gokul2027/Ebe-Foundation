@@ -120,6 +120,11 @@
         transform-style: preserve-3d;
         will-change: transform;
       }
+      
+      /* --- Project Card Clickable Cursor --- */
+      #projects .group {
+        cursor: pointer;
+      }
 
       /* --- Hero Slider Styles --- */
       .hero-slider .slide {
@@ -210,9 +215,86 @@
         z-index: 1;
       }
       
-      /* --- Style for clickable project images --- */
-      .project-image {
+      /* --- NEW: CSS FOR THE IMAGE MODAL --- */
+      .image-modal {
+          display: none;
+          position: fixed;
+          z-index: 1000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgba(0, 0, 0, 0.9);
+          justify-content: center;
+          align-items: center;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+      }
+
+      .image-modal.active {
+          display: flex;
+          opacity: 1;
+      }
+
+      .modal-content {
+          margin: auto;
+          display: block;
+          max-width: 90%;
+          max-height: 85vh;
+          border-radius: 8px;
+          transform: scale(0.8);
+          transition: transform 0.3s ease;
+      }
+      
+      .image-modal.active .modal-content {
+          transform: scale(1);
+      }
+
+      .modal-close {
+          position: absolute;
+          top: 20px;
+          right: 35px;
+          color: #fff;
+          font-size: 40px;
+          font-weight: bold;
+          transition: color 0.3s;
           cursor: pointer;
+          z-index: 1001;
+      }
+
+      .modal-close:hover,
+      .modal-close:focus {
+          color: #bbb;
+          text-decoration: none;
+      }
+
+      .modal-nav {
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          padding: 16px;
+          color: white;
+          font-weight: bold;
+          font-size: 30px;
+          transition: 0.3s ease;
+          user-select: none;
+          background-color: rgba(0,0,0,0.3);
+      }
+
+      .modal-nav:hover {
+          background-color: rgba(0,0,0,0.6);
+      }
+
+      .next {
+          right: 0;
+          border-radius: 3px 0 0 3px;
+      }
+
+      .prev {
+          left: 0;
+          border-radius: 0 3px 3px 0;
       }
 
     </style>
@@ -261,10 +343,10 @@
       <!-- Hero Section -->
       <section id="home" class="h-[calc(100vh-80px)] text-white relative overflow-hidden hero-slider">
         <!-- Slides -->
-        <div class="slide active" style="background-image: url('imgs/hall.jpeg');"></div>
-        <div class="slide" style="background-image: url('imgs/homebg.jpeg');"></div>
-        <div class="slide" style="background-image: url('imgs/oil.jpeg');"></div>
-        <div class="slide" style="background-image: url('imgs/villa.jpeg');"></div>
+        <div class="slide active" style="background-image: url('https://placehold.co/1920x1080/4a5568/ffffff?text=Slide+1');"></div>
+        <div class="slide" style="background-image: url('https://placehold.co/1920x1080/718096/ffffff?text=Slide+2');"></div>
+        <div class="slide" style="background-image: url('https://placehold.co/1920x1080/2d3748/ffffff?text=Slide+3');"></div>
+        <div class="slide" style="background-image: url('https://placehold.co/1920x1080/9f7aea/ffffff?text=Slide+4');"></div>
 
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/40 z-10"></div>
@@ -351,7 +433,7 @@
             <!-- Project Cards -->
             <div class="group rounded-lg overflow-hidden shadow-xl hidden-for-reveal interactive-card-container">
               <div class="relative interactive-card">
-                <img src="imgs/hall.jpeg" alt="Prayer Hall Project" class="project-image w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                <img src="https://placehold.co/600x400/4a5568/ffffff?text=Prayer+Hall" alt="Prayer Hall Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div class="absolute inset-0 flex items-end p-6">
                   <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
@@ -363,7 +445,7 @@
             </div>
             <div class="group rounded-lg overflow-hidden shadow-xl hidden-for-reveal interactive-card-container" style="transition-delay: 0.2s">
               <div class="relative interactive-card">
-                <img src="imgs/homebg.jpeg" alt="Modern Villa Project" class="project-image w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                <img src="https://placehold.co/600x400/718096/ffffff?text=Modern+Villa" alt="Modern Villa Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
                  <div class="absolute inset-0 flex items-end p-6">
                   <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
@@ -375,7 +457,7 @@
             </div>
             <div class="group rounded-lg overflow-hidden shadow-xl hidden-for-reveal interactive-card-container" style="transition-delay: 0.4s">
               <div class="relative interactive-card">
-                <img src="imgs/oil.jpeg" alt="Factory Project" class="project-image w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                <img src="https://placehold.co/600x400/2d3748/ffffff?text=Factory" alt="Factory Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
                  <div class="absolute inset-0 flex items-end p-6">
                   <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
@@ -394,7 +476,7 @@
         <div class="container mx-auto px-4 lg:px-8">
           <div class="grid md:grid-cols-2 gap-16 items-center">
             <div class="hidden-for-reveal interactive-card-container">
-              <img src="imgs/raj.jpg" alt="EBE Foundations Team" class="rounded-lg shadow-2xl w-full h-auto object-cover interactive-card"/>
+              <img src="https://placehold.co/800x1000/cccccc/333333?text=Dr.+R.+Rajkumar" alt="EBE Foundations Team" class="rounded-lg shadow-2xl w-full h-auto object-cover interactive-card"/>
             </div>
             <div class="text-center md:text-left hidden-for-reveal" style="transition-delay: 0.2s;">
               <h2 class="text-4xl font-bold text-blue-900 mb-6">
@@ -463,13 +545,13 @@
         </div>
       </div>
     </footer>
-
-    <!-- Image Modal -->
-    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-90 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
-      <div class="relative max-w-5xl max-h-full">
-        <img id="modal-img" src="" alt="Expanded project image" class="rounded-lg shadow-2xl max-w-full max-h-[90vh] object-contain">
-        <button id="modal-close" class="absolute -top-3 -right-3 text-white bg-blue-700 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold hover:bg-blue-800 transition-transform hover:scale-110 focus:outline-none">&times;</button>
-      </div>
+    
+    <!-- NEW: HTML FOR THE IMAGE MODAL -->
+    <div id="imageModal" class="image-modal" role="dialog" aria-modal="true">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <span class="modal-nav prev" id="modalPrev">&#10094;</span>
+        <span class="modal-nav next" id="modalNext">&#10095;</span>
+        <img class="modal-content" id="modalImage" src="" alt="Full-size project image">
     </div>
 
     <script>
@@ -581,8 +663,8 @@
 
       // --- Hero Slider Logic ---
       const slides = document.querySelectorAll(".hero-slider .slide");
-      const nextBtn = document.getElementById("next-slide");
-      const prevBtn = document.getElementById("prev-slide");
+      const nextBtnSlide = document.getElementById("next-slide");
+      const prevBtnSlide = document.getElementById("prev-slide");
       let currentSlide = 0;
       let slideInterval;
 
@@ -614,13 +696,13 @@
         clearInterval(slideInterval);
       }
 
-      nextBtn.addEventListener('click', () => {
+      nextBtnSlide.addEventListener('click', () => {
         stopSlideShow();
         nextSlide();
         startSlideShow();
       });
 
-      prevBtn.addEventListener('click', () => {
+      prevBtnSlide.addEventListener('click', () => {
         stopSlideShow();
         prevSlide();
         startSlideShow();
@@ -630,46 +712,89 @@
       startSlideShow();
 
 
-      // --- Image Modal Logic ---
-      const imageModal = document.getElementById('image-modal');
-      const modalImg = document.getElementById('modal-img');
-      const modalClose = document.getElementById('modal-close');
-      const projectImages = document.querySelectorAll('.project-image');
-
-      projectImages.forEach(img => {
-        img.addEventListener('click', () => {
-          imageModal.classList.remove('hidden');
-          imageModal.classList.add('flex'); // Use flex to center content
-          modalImg.src = img.src;
-          document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
-      });
-
-      function closeModal() {
-        imageModal.classList.add('hidden');
-        imageModal.classList.remove('flex');
-        document.body.style.overflow = 'auto'; // Restore scrolling
-      }
-
-      modalClose.addEventListener('click', closeModal);
-
-      // Close modal by clicking on the background overlay
-      imageModal.addEventListener('click', (e) => {
-        if (e.target === imageModal) {
-          closeModal();
-        }
-      });
-      
-      // Close modal with the Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
-            closeModal();
-        }
-      });
-
-
       // Set current year in footer
       document.getElementById("year").textContent = new Date().getFullYear();
+      
+      // --- NEW: JAVASCRIPT FOR THE IMAGE MODAL ---
+
+      // Get all the necessary elements from the DOM
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      const closeBtn = document.getElementById('modalClose');
+      const prevBtn = document.getElementById('modalPrev');
+      const nextBtn = document.getElementById('modalNext');
+      const projectCards = document.querySelectorAll('#projects .group');
+      let currentIndex = 0;
+
+      // Helper function to get the image URL from a card's img tag
+      function getImageUrl(card) {
+          const img = card.querySelector('img');
+          return img ? img.src : '';
+      }
+
+      // Opens the modal and displays the image for the given index
+      function openModal(index) {
+          currentIndex = index;
+          const imageUrl = getImageUrl(projectCards[currentIndex]);
+          if (imageUrl) {
+            modalImg.src = imageUrl;
+            modal.classList.add('active');
+          }
+      }
+
+      // Closes the modal
+      function closeModal() {
+          modal.classList.remove('active');
+      }
+
+      // Displays the next image in the gallery
+      function showNextImage() {
+          currentIndex = (currentIndex + 1) % projectCards.length;
+          const imageUrl = getImageUrl(projectCards[currentIndex]);
+          modalImg.src = imageUrl;
+      }
+
+      // Displays the previous image in the gallery
+      function showPrevImage() {
+          currentIndex = (currentIndex - 1 + projectCards.length) % projectCards.length;
+          const imageUrl = getImageUrl(projectCards[currentIndex]);
+          modalImg.src = imageUrl;
+      }
+
+      // Add click listener to each project card to open the modal
+      projectCards.forEach((card, index) => {
+          card.addEventListener('click', () => {
+              openModal(index);
+          });
+      });
+
+      // Add event listeners for closing the modal
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+              closeModal();
+          }
+      });
+
+      // Add event listeners for the navigation buttons
+      nextBtn.addEventListener('click', showNextImage);
+      prevBtn.addEventListener('click', showPrevImage);
+      
+      // Add keyboard navigation
+      document.addEventListener('keydown', (e) => {
+          if (modal.classList.contains('active')) {
+              if (e.key === "Escape") {
+                  closeModal();
+              }
+              if (e.key === "ArrowRight") {
+                  showNextImage();
+              }
+              if (e.key === "ArrowLeft") {
+                  showPrevImage();
+              }
+          }
+      });
+
     </script>
 </body>
 </html>
