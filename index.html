@@ -54,7 +54,7 @@
         );
         transition: opacity 0.4s ease-out, transform 0.2s ease-out;
       }
-      
+
       body:not(:hover) #cursor-light {
           opacity: 0;
       }
@@ -75,7 +75,7 @@
         box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
           0 2px 4px -2px rgb(0 0 0 / 0.1);
       }
-      
+
       /* --- Nav Link Hover Effect --- */
       .nav-link {
         position: relative;
@@ -99,7 +99,7 @@
 
       /* --- Enhanced Animation for Revealed Elements (Transition-based) --- */
       .hidden-for-reveal {
-        opacity: 0;
+        opacity: 0.3;
         transform: translateY(30px);
         will-change: transform, opacity;
         transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -120,7 +120,7 @@
         transform-style: preserve-3d;
         will-change: transform;
       }
-      
+
       /* --- Hero Slider Styles --- */
       .hero-slider .slide {
         position: absolute;
@@ -174,7 +174,7 @@
         transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
         opacity: 0;
       }
-      
+
       #home:hover .slider-nav button {
         opacity: 1;
       }
@@ -210,35 +210,6 @@
         z-index: 1;
       }
 
-      /* --- Mobile Menu Enhancement --- */
-      #mobile-menu {
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        transform: translateY(-10%);
-        opacity: 0;
-        pointer-events: none;
-      }
-      header.menu-open #mobile-menu {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
-      
-      /* --- Disable hover effects on touch devices --- */
-      @media (hover: none) or (pointer: coarse) {
-        #cursor-light {
-          display: none;
-        }
-        .interactive-card {
-          transform: none !important;
-        }
-        .group:hover .interactive-card {
-          transform: none !important;
-        }
-        .service-card:hover:before {
-          transform: translate(-50%, -50%) scale(0);
-        }
-      }
-
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -265,14 +236,14 @@
 
           <!-- Mobile Menu Button -->
           <div class="lg:hidden">
-            <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-800 z-50 relative">
+            <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-800">
               <i data-lucide="menu" class="w-7 h-7"></i>
             </button>
           </div>
         </nav>
       </div>
       <!-- Mobile Menu -->
-      <div id="mobile-menu" class="absolute lg:hidden bg-white/95 backdrop-blur-sm w-full border-t border-gray-200 shadow-lg">
+      <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-200">
         <a href="#home" class="block px-6 py-4 text-gray-600 hover:bg-gray-100 font-medium">Home</a>
         <a href="#services" class="block px-6 py-4 text-gray-600 hover:bg-gray-100 font-medium">Services</a>
         <a href="#projects" class="block px-6 py-4 text-gray-600 hover:bg-gray-100 font-medium">Projects</a>
@@ -289,7 +260,7 @@
         <div class="slide" style="background-image: url('imgs/homebg.jpeg');"></div>
         <div class="slide" style="background-image: url('imgs/oil.jpeg');"></div>
         <div class="slide" style="background-image: url('imgs/villa.jpeg');"></div>
-        
+
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/40 z-10"></div>
 
@@ -327,35 +298,35 @@
           <div class="flex flex-wrap items-stretch justify-center gap-10">
             <!-- Service Cards -->
             <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]">
-              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
                 <div class="bg-blue-100 text-blue-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="hard-hat" class="w-10 h-10"></i></div>
                 <h3 class="text-xl font-bold mb-3">Construction</h3>
                 <p class="text-gray-600">All types of construction projects including: Villa, Apartment, Commercial & Industrial Buildings, Renovation, Interior Design, and Landscaping.</p>
               </div>
             </div>
              <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.1s">
-              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
                 <div class="bg-amber-100 text-amber-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="notebook-pen" class="w-10 h-10"></i></div>
                 <h3 class="text-xl font-bold mb-3">Design & Planning</h3>
                 <p class="text-gray-600">Our team of experts will work with you to create a detailed building plan that meets your needs and budget.</p>
               </div>
             </div>
             <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.2s">
-              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
                 <div class="bg-green-100 text-green-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="ruler" class="w-10 h-10"></i></div>
                 <h3 class="text-xl font-bold mb-3">Structural Planning</h3>
                 <p class="text-gray-600">Comprehensive structural planning services to ensure your project is built on a solid foundation, from initial design to final execution.</p>
               </div>
             </div>
             <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.3s">
-              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
                 <div class="bg-purple-100 text-purple-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="building-2" class="w-10 h-10"></i></div>
                 <h3 class="text-xl font-bold mb-3">Elevation Design</h3>
                 <p class="text-gray-600">Detailed architectural designs and 3D modeling to visualize your project's exterior before construction begins.</p>
               </div>
             </div>
             <div class="interactive-card-container hidden-for-reveal w-full md:w-[45%] lg:w-[30%]" style="transition-delay: 0.4s">
-              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card">
+              <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-2 interactive-card h-full service-card group">
                 <div class="bg-rose-100 text-rose-700 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 group-hover:scale-110"><i data-lucide="view" class="w-10 h-10"></i></div>
                 <h3 class="text-xl font-bold mb-3">3D Walkthrough</h3>
                 <p class="text-gray-600">Experience your project in a virtual 3D environment with our advanced walkthrough services, allowing you to explore every detail.</p>
@@ -387,7 +358,7 @@
             </div>
             <div class="group rounded-lg overflow-hidden shadow-xl hidden-for-reveal interactive-card-container" style="transition-delay: 0.2s">
               <div class="relative interactive-card">
-                <img src="imgs/villa.jpeg" alt="Modern Villa Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                <img src="imgs/homebg.jpeg" alt="Modern Villa Project" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
                  <div class="absolute inset-0 flex items-end p-6">
                   <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
@@ -412,17 +383,17 @@
           </div>
         </div>
       </section>
-      
+
       <!-- About Us Section -->
       <section id="about" class="py-24 bg-gray-50">
         <div class="container mx-auto px-4 lg:px-8">
           <div class="grid md:grid-cols-2 gap-16 items-center">
             <div class="hidden-for-reveal interactive-card-container">
-              <img src="imgs/ebe foundation pic 1.jpeg" alt="EBE Foundations Team" class="rounded-lg shadow-2xl w-full h-auto object-cover interactive-card"/>
+              <img src="imgs/raj.jpg" alt="EBE Foundations Team" class="rounded-lg shadow-2xl w-full h-auto object-cover interactive-card"/>
             </div>
             <div class="text-center md:text-left hidden-for-reveal" style="transition-delay: 0.2s;">
               <h2 class="text-4xl font-bold text-blue-900 mb-6">
-                A Legacy of Excellence
+                Dr.R.Rajkumar (BCE)
               </h2>
               <p class="text-gray-600 mb-6 leading-relaxed">
                 EBE FOUNDATIONS is a cornerstone of the construction industry, shaping communities with our commitment to quality. Our success is built on a foundation of trust, innovation, and a relentless pursuit of client satisfaction. We are more than builders; we are partners in creating lasting value.
@@ -497,26 +468,16 @@
       const mobileMenu = document.getElementById("mobile-menu");
 
       // --- Mobile Menu Toggle ---
-      mobileMenuButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpened = header.classList.toggle("menu-open");
-        mobileMenuButton.innerHTML = `<i data-lucide="${isOpened ? 'x' : 'menu'}" class="w-7 h-7"></i>`;
-        lucide.createIcons();
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
       });
 
-      // --- Close mobile menu when a link is clicked ---
-      const closeMenu = () => {
-        if (header.classList.contains("menu-open")) {
-          header.classList.remove("menu-open");
-          mobileMenuButton.innerHTML = `<i data-lucide="menu" class="w-7 h-7"></i>`;
-          lucide.createIcons();
-        }
-      };
-
+      // Close mobile menu when a link is clicked
       document.querySelectorAll("#mobile-menu a").forEach((link) => {
-        link.addEventListener("click", closeMenu);
+        link.addEventListener("click", () => {
+          mobileMenu.classList.add("hidden");
+        });
       });
-
 
       // --- Translucent Header on Scroll ---
       window.addEventListener("scroll", () => {
@@ -527,18 +488,17 @@
         }
       });
 
-      // --- Animate Elements on Scroll (Reversible) ---
+      // --- Animate Elements on Scroll (One-way) ---
       const scrollObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("reveal");
-            } else {
-              entry.target.classList.remove("reveal");
+              scrollObserver.unobserve(entry.target);
             }
           });
         },
-        { 
+        {
           threshold: 0.15,
           rootMargin: "0px 0px -50px 0px"
         }
@@ -550,16 +510,14 @@
       // --- Hero Title Word Animation ---
       const heroTitle = document.getElementById('hero-title');
       const titleText = "Building Your Vision";
-      // FIX: Added padding-bottom to prevent clipping of letter descenders.
       heroTitle.innerHTML = titleText
         .split(' ')
-        .map(word => `<span class="inline-block overflow-hidden" style="padding-bottom: 0.2em;"><span class="inline-block transform translate-y-full">${word}</span></span>`)
+        .map(word => `<span class="inline-block overflow-hidden align-bottom" style="padding-bottom: 0.1em; margin-bottom: -0.1em;"><span class="inline-block transform translate-y-full">${word}</span></span>`)
         .join(' ');
-        
+
       setTimeout(() => {
         const wordSpans = heroTitle.querySelectorAll('span>span');
         wordSpans.forEach((span, index) => {
-          span.style.willChange = 'transform';
           setTimeout(() => {
             span.style.transition = 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)';
             span.style.transform = 'translateY(0)';
@@ -571,48 +529,43 @@
 
       // --- Cursor Spotlight Effect ---
       const cursorLight = document.getElementById("cursor-light");
-      if (window.matchMedia("(pointer: fine)").matches) {
-          let frame;
-          document.body.addEventListener("mousemove", (e) => {
-            cancelAnimationFrame(frame);
-            frame = requestAnimationFrame(() => {
-              cursorLight.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
-            });
-          });
-      }
-
+      let frame;
+      document.body.addEventListener("mousemove", (e) => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          cursorLight.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
+        });
+      });
 
       // --- 3D Interactive Card Tilt Effect ---
-      if (window.matchMedia("(pointer: fine)").matches) {
-          const interactiveCards = document.querySelectorAll(".interactive-card");
-          interactiveCards.forEach((card) => {
-            const maxTilt = 8; 
+      const interactiveCards = document.querySelectorAll(".interactive-card");
+      interactiveCards.forEach((card) => {
+        const maxTilt = 8; // Reduced max tilt for a more subtle effect
 
-            card.addEventListener("mousemove", (e) => {
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
 
-              const { width, height } = rect;
-              const middleX = width / 2;
-              const middleY = height / 2;
+          const { width, height } = rect;
+          const middleX = width / 2;
+          const middleY = height / 2;
 
-              const tiltY = ((x - middleX) / middleX) * maxTilt;
-              const tiltX = ((middleY - y) / middleY) * maxTilt;
+          const tiltY = ((x - middleX) / middleX) * maxTilt;
+          const tiltX = ((middleY - y) / middleY) * maxTilt;
 
-              requestAnimationFrame(() => {
-                card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.05, 1.05, 1.05)`;
-              });
-            });
-
-            card.addEventListener("mouseleave", () => {
-              requestAnimationFrame(() => {
-                card.style.transform = "rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
-              });
-            });
+          requestAnimationFrame(() => {
+            card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.05, 1.05, 1.05)`;
           });
-      }
-      
+        });
+
+        card.addEventListener("mouseleave", () => {
+          requestAnimationFrame(() => {
+            card.style.transform = "rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+          });
+        });
+      });
+
       // --- Hero Slider Logic ---
       const slides = document.querySelectorAll(".hero-slider .slide");
       const nextBtn = document.getElementById("next-slide");
@@ -634,40 +587,31 @@
         let newSlide = (currentSlide + 1) % slides.length;
         showSlide(newSlide);
       }
-      
+
       function prevSlide() {
         let newSlide = (currentSlide - 1 + slides.length) % slides.length;
         showSlide(newSlide);
       }
 
       function startSlideShow() {
-        // Only start auto-sliding if there is more than one slide
-        if (slides.length > 1) {
-            slideInterval = setInterval(nextSlide, 5000); // Increased interval for a calmer feel
-        }
+        slideInterval = setInterval(nextSlide, 3000);
       }
 
       function stopSlideShow() {
         clearInterval(slideInterval);
       }
-      
-      if (slides.length > 1) {
-        nextBtn.addEventListener('click', () => {
-          stopSlideShow();
-          nextSlide();
-          startSlideShow();
-        });
 
-        prevBtn.addEventListener('click', () => {
-          stopSlideShow();
-          prevSlide();
-          startSlideShow();
-        });
-      } else {
-        // Hide nav buttons if only one slide
-        nextBtn.style.display = 'none';
-        prevBtn.style.display = 'none';
-      }
+      nextBtn.addEventListener('click', () => {
+        stopSlideShow();
+        nextSlide();
+        startSlideShow();
+      });
+
+      prevBtn.addEventListener('click', () => {
+        stopSlideShow();
+        prevSlide();
+        startSlideShow();
+      });
 
       // Start the slideshow on page load
       startSlideShow();
